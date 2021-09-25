@@ -1,0 +1,658 @@
+# This .fvwm2rc file has been updated by Tom McCurdy to support
+# multiple environments
+
+# this is a bare bones sample .fvwm2rc/system.fvwm2rc file for fvwm.
+# It should be customized before install.  See other sample .fvwm2rc files
+# for hints, as well as pointers from the various links on the official
+# fvwm web page (see the FAQ).
+
+EdgeResistance 250 10
+EdgeScroll 0 0
+ClickTime 750
+MoveThreshold 3
+Style * SloppyFocus, MouseFocusClickRaises
+SnapAttraction 8 Windows
+SnapGrid 8
+
+HideGeometryWindow Always
+GlobalOpts StipledTitles
+
+DeskTopSize 2x2
+Menustyle * fvwm, Font -adobe-times-bold-r-*-*-14-*-*-*-*-*-*-*
+MenuStyle * Foreground maroon, Background grey60, Greyed grey40
+
+
+
+
+##############################
+# Use an arrow rather than the `X` cursor on the root window.
+#################
+CursorStyle root top_left_arrow
+CursorStyle default left_ptr 
+CursorStyle position left_ptr
+
+OpaqueMoveSize -1
+SnapAttraction 3 SameType
+
+WindowFont		-adobe-times-bold-r-*-*-12-*-*-*-*-*-*-*
+IconFont		-adobe-helvetica-medium-r-*-*-12-*-*-*-*-*-*-*
+
+
+# default Styles:
+# make sure these fonts exist on your system:
+Style *           Font -adobe-times-bold-r-*-*-15-*-*-*-*-*-*-*
+Style *           IconFont -adobe-times-bold-r-*-*-15-*-*-*-*-*-*-*
+Style *           HilightFore black, HilightBack palevioletred
+Style *           BorderWidth 7, HandleWidth 7
+Style *           Icon unknown1.xpm, Color lightgrey/dimgrey
+Style *           MWMFunctions, MWMDecor, HintOverride
+Style *           DecorateTransient, NoPPosition
+Style *           IconBox 0 -10 -280 -1
+Style *           FocusFollowsMouse
+Style *           TileCascadePlacement
+
+# Styles for various Fvwm modules:
+Style "Fvwm*"       NoTitle,  Sticky, WindowListSkip
+Style "Fvwm*"       BorderWidth 2, CirculateSkipIcon, CirculateSkip
+Style "FvwmPager"   StaysOnTop
+Style "FvwmBanner"  StaysOnTop
+Style "FvwmButtons" Icon toolbox.xpm, ClickToFocus
+
+# Styles for your common terminal emulator programs:
+Style "XTerm"       Icon xterm.xpm, SloppyFocus, IconBox -70 1 -1 -140
+Style "rxvt"        Icon term.xpm, SloppyFocus, IconBox -70 1 -1 -140
+Style "rxvt"        MWMBorder, MWMButtons
+
+# Styles for various common programs:
+Style "*lock"       NoTitle, NoHandles, Sticky, WindowListSkip, ClickToFocus
+Style "xbiff"       NoTitle, Sticky, WindowListSkip, ClickToFocus
+Style "xcalc"       Icon xcalc.xpm, NoButton 2,ClickToFocus
+Style "xmh"         Icon mail1.xpm, NoIconTitle,StickyIcon
+Style "xmh"	    NoButton 2
+Style "xman"	    Icon xman.xpm, ClickToFocus
+Style "xmag"	    Icon mag_glass.xpm, ClickToFocus
+Style "xgraph"      Icon graphs.xpm, ClickToFocus
+Style "xmosaic"     Color Green/Yellow, ClickToFocus
+
+
+# some simple default key bindings:
+Key Next         A       SCM     Next (AcceptsFocus) Focus
+Key Prior        A       SCM     Prev (AcceptsFocus) Focus
+  # number keys on keypad to move the focus (Ctrl-x)
+Key KP_1 A C Direction SouthWest Focus
+Key KP_2 A C Direction South Focus
+Key KP_3 A C Direction SouthEast Focus
+Key KP_4 A C Direction West Focus
+Key KP_6 A C Direction East Focus
+Key KP_7 A C Direction NorthWest Focus
+Key KP_8 A C Direction North Focus
+Key KP_9 A C Direction NorthEast Focus
+
+# Macro keys for iPlanet directories
+Key F2 A S Exec "echo cd /opt/iplanet/current/https-cib.bankofamerica.com"
+
+
+# some simple default mouse bindings:
+#   for the root window:
+Mouse 1	R   	A       Menu RootMenu Nop
+Mouse 2	R    	A      	Menu Window-Ops Nop
+Mouse 3	R    	A      	WindowList
+
+#   for the title bar buttons:
+Mouse 0	1    	A      	Menu Window-Ops2 Close
+Mouse 0	2    	A     	Maximize-Func
+Mouse 0	4    	A     	Iconify
+
+#   for other parts of the window/borders/icons:
+Mouse 1	F	A	Resize-or-Raise
+Mouse 1	TS	A	Move-or-Raise
+Mouse 1	I	A	Move-or-Iconify
+Mouse 2	I	A	Iconify
+Mouse 2	FST	A	Menu Window-Ops2 Nop
+Mouse 3	TSIF	A	RaiseLower
+
+
+######################## Initialization Functions ############################
+AddToFunc StartFunction
++ I Module FvwmButtons
+
+AddToFunc InitFunction
+# + I xsetroot -solid acqamarine
++ "Linux SandBox WAS6(santhoo20)" Exec exec rxvt -sb -bg olivedrab4 -fg white1 -e ssh nc1xdbld03
+# + I exec xsetroot -mod 2 2 -fg rgb:55/40/55 -bg rgb:70/50/70
+#   Things I want start on the desktop
+# + I Exec exec xterm -geometry 80x50+522+32 -sb -bg slategray      -fg white -sl 256
+#+ I Exec exec rxvt -geometry 80x50+522+32 -sb -bg olivedrab4   -fg white -sl 256
+# + I Exec exec xterm -geometry 80x20+535-0  -sb -bg cornflowerblue -fg white -sl 256 
+# + I Exec exec xterm -geometry 92x50+1280+0 -sb -bg steelblue      -fg white  -sl 256
+# + I Exec exec emacs -geometry 96x45+545+2 
+# + I Exec exec xterm -geometry 80x60+0+0 -sb -bg mediumblue -fg white  -sl 256
+
+
+# For some SM-s (like gnome-session) there is an internal background setter.
+AddToFunc SessionInitFunction
+# + I Nop
+
+######################## Menus ###################
+AddToMenu RootMenu	"Root Menu"	Title
++			"rxvt (whiteblack)"		Exec exec rxvt -sb -bg white -fg black -sl 256
++			"rxvt (Whitemaroon)"		Exec exec rxvt -sb -bg white -fg maroon -sl 256
++			"rxvt (Big Font)"		Exec exec rxvt -sb -bg steelblue -fg white -sl 256 -fn 10x20
++			""		Nop
++                       "General "    Popup General
++			""		Nop
++                       "VF Servers "    Popup VFServers
++			""		Nop
++                       "VF Stride "    Popup VFStride
++			""		Nop
++                       "VF Mojo "    Popup VFMojo
++			""		Nop
++                       "VF Ecom "    Popup VFEcom
++			""		Nop
++                       "VF PIC "    Popup VFPic
++			""		Nop
++                       "VF I2 "    Popup VFI2
++			""		Nop
++                       "IBM Internal "    Popup IBMInternal
++			""		Nop
++			""		Nop
++			""		Nop
++			""		Nop
++			""		Nop
++			""		Nop
++                       "Utilities"             Popup Utilities
++			""		Nop
++			"Fvwm Modules"	          Popup Module-Popup
++                       "Fvwm Window Ops"         Popup Window-Ops
++                       "Fvwm Simple Config Ops"  Popup Misc-Ops
++			""		Nop
++                       "Refresh Screen"   Refresh
++                       "Recapture Screen" Recapture
++			""		Nop
++			"Exit Fvwm"	Popup Quit-Verify
+
+AddToMenu Utilities     "Utilities" Title
+# +			"Top"		Exec exec xterm -T Top -n Top -e top
++			"Calculator"	Exec exec xcalc
++			"Xman"		Exec exec xman
++			"Xmag"		Exec exec xmag
++                       "Editres"       Exec exec editres
++			""		Nop
++			"XEmacs"	Exec exec emacs
+#+                       "Mail"          MailFunction xmh "-font fixed"
+#+			""		Nop
+#+                       "XLock"         Exec exec xlock -mode random
++			""		Nop
++                       "Reset X defaults" Exec xrdb -load $HOME/.Xdefaults
+
+AddToMenu Misc-Ops "Misc Config Opts" Title
++                  "Sloppy Focus"        ChangeDefaultFocus SloppyFocus
++                  "Click To Focus"      ChangeDefaultFocus ClickToFocus
++                  "Focus Follows Mouse" ChangeDefaultFocus FocusFollowsMouse
++                  "" Nop
++                  "Colormap Follows Mouse" ColormapFocus FollowsMouse
++                  "Colormap Follows Focus" ColormapFocus FollowsFocus
++                  "" Nop
++                  "Full Paging ON"         EdgeScroll 100 100
++                  "All Paging OFF"         EdgeScroll 0 0
++                  "Horizontal Paging Only" EdgeScroll 100 0
++                  "Vertical Paging Only"   EdgeScroll 0 100
++                  "Partial Paging"         EdgeScroll 50 50
++                  "Full Paging && Edge Wrap" EdgeScroll 100000 100000
+
+AddToMenu Window-Ops	"Window Ops"	Title
++			"Move"		Move
++			"Resize"	Resize
++			"Raise"		Raise
++			"Lower"		Lower
++		 	"(De)Iconify"	Iconify
++			"(Un)Stick"	Stick
++			"(Un)Maximize"	Maximize
++			""		Nop
++			"Delete"	Delete
++			"Close"		Close
++			"Destroy"	Destroy
++			""		Nop
++			"Refresh Window" RefreshWindow
+
+AddToMenu Window-Ops2	"&Move"		Move
++			"&Resize"	Resize
++			"R&aise"	Raise
++			"&Lower"	Lower
++			"(De)&Iconify"	Iconify
++			"(Un)&Stick"	Stick
++                       "(Un)Ma&ximize" Maximize
++			""		Nop
++			"&Delete"	Delete
++			"&Close"	Close
++			"Destroy"	Destroy
++			""		Nop
++			"ScrollBar" 	Module FvwmScroll 2 2
++			"Print"         PrintFunction
++                       "Print Reverse" PrintReverseFunction
+
+# be sure to fill these in with your correct machine names:
+#  Use the user option in the ~/.ssh/config file to get the appropriate user name
+# CRM-Prod-Logins removed from menu, menu items created for TX, KC, and QA separately
+AddToMenu General	"General"  Title
++	""  Nop
++       "edbdc.pok.ibm.com"  Exec exec rxvt -T "edbdc.pok.ibm.com"  -bg white  -fg black  -e ssh neelimas@edbdc.pok.ibm.com
++	""  Nop
+AddToMenu VFServers	"VFServers"  Title
++	""  Nop
++       "Dimensions itgcurs82"  Exec exec rxvt -T "Dimensions itgcurs82"  -bg white  -fg black  -e ssh saraswn@itgcurs82.vfc.com
++       "itxfurs5"  Exec exec rxvt -T "itxfurs5"  -bg white  -fg black  -e ssh saraswn@itxfurs5.vfc.com
++	""  Nop
+AddToMenu VFStride	"VF-Stride"  Title
++	""  Nop
++	" SYSD "  Nop
++       "SYSD itgcucsqa08"  Exec exec rxvt -T "SYSD itgcucsqa08"  -bg white  -fg black  -e ssh saraswn@itgcucsqa08.vfc.com
++	""  Nop
++	" DEV "  Nop
++       "Dev itgcurs91"  Exec exec rxvt -T "Dev itgcurs91"  -bg white  -fg black  -e ssh saraswn@itgcurs91.vfc.com
++       "Dev Training itgcurs88"  Exec exec rxvt -T "Dev Training itgcurs88"  -bg white  -fg black  -e ssh saraswn@itgcurs88.vfc.com
++	""  Nop
++	"QA"  Nop
++       "QA itgcurs92"  Exec exec rxvt -T "QA itgcurs92"  -bg white  -fg black  -e ssh saraswn@itgcurs92.vfc.com
++	""  Nop
++	"PROD"  Nop
++       "Prod itgcurs87"  Exec exec rxvt -T "Prod itgcurs87"  -bg white  -fg black  -e ssh saraswn@itgcurs87.vfc.com
++       "Prod itgcurs89"  Exec exec rxvt -T "Prod itgcurs89"  -bg white  -fg black  -e ssh saraswn@itgcurs89.vfc.com
+
+AddToMenu VFMojo	"VF-MOJO"  Title
++	""  Nop
++	" DEV "  Nop
++       "AP/Cluster itgcurs117"  Exec exec rxvt -T "AP/Cluster itgcurs117"  -bg white  -fg black  -e ssh saraswn@itgcurs117.vfc.com
++       "DM/Cluster itgcurs118"  Exec exec rxvt -T "DM/Cluster itgcurs118"  -bg white  -fg black  -e ssh saraswn@itgcurs118.vfc.com
++       "Database itgcurs119"  Exec exec rxvt -T "Database itgcurs119"  -bg white  -fg black  -e ssh saraswn@itgcurs119.vfc.com
++	""  Nop
++	" QA "  Nop
++       "AP/Cluster itgcurs114"  Exec exec rxvt -T "AP/Cluster itgcurs114"  -bg white  -fg black  -e ssh saraswn@167.64.227.122
++       "DM/Cluster itgcurs115"  Exec exec rxvt -T "DM/Cluster itgcurs115"  -bg white  -fg black  -e ssh saraswn@167.64.227.123
++       "Database itgcurs116"  Exec exec rxvt -T "Database itgcurs116"  -bg white  -fg black  -e ssh saraswn@itgcurs116.vfc.com
++	""  Nop
++	"PROD"  Nop
++       "itgcurs120"  Exec exec rxvt -T "itgcurs120"  -bg white  -fg black  -e ssh saraswn@itgcurs120.vfc.com
++       "itgcurs121"  Exec exec rxvt -T "itgcurs121"  -bg white  -fg black  -e ssh saraswn@itgcurs121.vfc.com
++       "itgcurs122"  Exec exec rxvt -T "itgcurs122"  -bg white  -fg black  -e ssh saraswn@itgcurs122.vfc.com
++       "itgcurs123"  Exec exec rxvt -T "itgcurs123"  -bg white  -fg black  -e ssh saraswn@itgcurs123.vfc.com
++       "Database itgcurs124"  Exec exec rxvt -T "Database itgcurs124"  -bg white  -fg black  -e ssh saraswn@itgcurs124.vfc.com
++       "Dmgr itgcurs125"  Exec exec rxvt -T "Dmgr itgcurs125"  -bg white  -fg black  -e ssh saraswn@itgcurs125.vfc.com
+AddToMenu VFEcom 	"VFEcom"  Title
++	""  Nop
++	"PROD"  Nop
++	""  Nop
++       "Prod DM itgcurs164"  Exec exec rxvt -T "itgcurs164"  -bg white  -fg black  -e ssh saraswn@itgcurs164.vfc.com
++       "itgcurs101"  Exec exec rxvt -T "itgcurs101"  -bg white  -fg black  -e ssh saraswn@itgcurs101.vfc.com
++       "Prod WCS itgcurs151"  Exec exec rxvt -T "itgcurs151"  -bg black  -fg white  -e ssh saraswn@itgcurs151.vfc.com
++       "Prod WCS itgcurs152"  Exec exec rxvt -T "itgcurs152"  -bg black  -fg white  -e ssh saraswn@itgcurs152.vfc.com
++       "Prod DB itgcurs150"  Exec exec rxvt -T "itgcurs150"  -bg black  -fg white  -e ssh saraswn@itgcurs150.vfc.com
++       "Prod Omnifind itgcurs155"  Exec exec rxvt -T "itgcurs155"  -bg black  -fg white  -e ssh saraswn@itgcurs155.vfc.com
++       "Prod Omnifind itgcurs163"  Exec exec rxvt -T "itgcurs163"  -bg black  -fg white  -e ssh saraswn@itgcurs163.vfc.com
++       "Prod Staging itgcurs166"  Exec exec rxvt -T "itgcurs166"  -bg black  -fg white  -e ssh saraswn@itgcurs166.vfc.com
++       "Prod WebServ2 itxfurs3"  Exec exec rxvt -T "itxfurs3"  -bg black  -fg white  -e ssh saraswn@itxfurs3.vfc.com
++       "Prod WebServ1 itxfurs4"  Exec exec rxvt -T "itxfurs4"  -bg black  -fg white  -e ssh saraswn@itxfurs4.vfc.com
++	""  Nop
++	"QA"  Nop
++       "QA DM itgcurs165"  Exec exec rxvt -T "itgcurs165"  -bg white  -fg black  -e ssh saraswn@itgcurs165.vfc.com
++       "QA WCS itgcurs154"  Exec exec rxvt -T "itgcurs154"  -bg white  -fg black  -e ssh saraswn@itgcurs154.vfc.com
++       "QA WCS itgcurs156"  Exec exec rxvt -T "itgcurs156"  -bg white  -fg black  -e ssh saraswn@167.64.227.87
++       "QA Omnifind itgcurs153"  Exec exec rxvt -T "itgcurs153"  -bg white  -fg black  -e ssh omniadm@itgcurs153.vfc.com
++       "QA Omnifind itgcurs158"  Exec exec rxvt -T "itgcurs158"  -bg white  -fg black  -e ssh omniadm@itgcurs158.vfc.com
++       "QA Staging itgcurs157"  Exec exec rxvt -T "itgcurs157"  -bg white  -fg black  -e ssh omniadm@itgcurs157.vfc.com
++       "QA WebServ2 itgcurs169"  Exec exec rxvt -T "itgcurs169"  -bg white  -fg black  -e ssh saraswn@itgcurs169.vfc.com
++       "QA WebServ1 itgcurs170"  Exec exec rxvt -T "itgcurs170"  -bg white  -fg black  -e ssh saraswn@itgcurs170.vfc.com
++       "QA DB itgcurs149"  Exec exec rxvt -T "itgcurs149"  -bg white  -fg black  -e ssh saraswn@itgcurs149.vfc.com
++	""  Nop
++	"Dev"  Nop
++       "Dev itgcurs126"  Exec exec rxvt -T "itgcurs126"  -bg white  -fg black  -e ssh saraswn@itgcurs126.vfc.com
++       "Dev itgcurs127"  Exec exec rxvt -T "itgcurs127"  -bg white  -fg black  -e ssh saraswn@itgcurs127.vfc.com
++	""  Nop
++	"Integration"  Nop
++       "Integration itgcurs128"  Exec exec rxvt -T "itgcurs128"  -bg white  -fg black  -e ssh saraswn@itgcurs128.vfc.com
++       "Integration itgcurs129"  Exec exec rxvt -T "itgcurs129"  -bg white  -fg black  -e ssh saraswn@itgcurs129.vfc.com
+AddToMenu VFPic 	"VFPic"  Title
++	""  Nop
++       "Prod itgcupicm2"  Exec exec rxvt -T "itgcupicm2"  -bg white  -fg black  -e ssh saraswn@itgcupicm2.vfc.com
++       "QA itxfurs5"  Exec exec rxvt -T "itxfurs5"  -bg white  -fg black  -e ssh saraswn@itxfurs5.vfc.com
+AddToMenu VFI2 	"VFI2"  Title
++	""  Nop
++       "Prod itgcurs27"  Exec exec rxvt -T "itgcurs27"  -bg white  -fg black  -e ssh saraswn@itgcurs27.vfc.com
++       "Prod itgcurs43"  Exec exec rxvt -T "itgcurs43"  -bg white  -fg black  -e ssh saraswn@itgcurs43.vfc.com
+AddToMenu IBMInternal 	"IBMInternal"  Title
++	""  Nop
++       "tbn21"  Exec exec rxvt -T "tbn21"  -bg white  -fg black  -e ssh neelimas@tbn21.pok.ibm.com
++       "tbn19"  Exec exec rxvt -T "tbn19"  -bg white  -fg black  -e ssh neelimas@tbn19.pok.ibm.com
++       "tbn17"  Exec exec rxvt -T "tbn17"  -bg white  -fg black  -e ssh neelimas@tbn17.pok.ibm.com
++       "pokxwwapcont"  Exec exec rxvt -T "pokxwwapcont"  -bg white  -fg black  -e ssh neelimas@pokxwwapcont.pok.ibm.com
++       "igfgiprd"  Exec exec rxvt -T "igfgiprd"  -bg white  -fg black  -e ssh neelimas@igfgiprd.pok.ibm.com
++       "don27"  Exec exec rxvt -T "don27"  -bg white  -fg black  -e ssh neelimas@don27.pok.ibm.com
++       "pokxiscsrv60"  Exec exec rxvt -T "pokxiscsrv60"  -bg white  -fg black  -e ssh neelimas@pokxiscsrv60.pok.ibm.com
++       "pokxiscsrv65"  Exec exec rxvt -T "pokxiscsrv65"  -bg white  -fg black  -e ssh neelimas@pokxiscsrv65.pok.ibm.com
++       "pokxiscsrv73"  Exec exec rxvt -T "pokxiscsrv73"  -bg white  -fg black  -e ssh neelimas@pokxiscsrv73.pok.ibm.com
++       "pokxiscsrv76"  Exec exec rxvt -T "pokxiscsrv76"  -bg white  -fg black  -e ssh neelimas@pokxiscsrv76.pok.ibm.com
++       "pokxiscsrv100 OSSCDev"  Exec exec rxvt -T "pokxiscsrv100 OSSCDEV"  -bg white  -fg black  -e ssh neelimas@pokxiscsrv100.pok.ibm.com
++       "pokxiscsrv101 OSSCQA"  Exec exec rxvt -T "pokxiscsrv101 OSSCQA"  -bg white  -fg black  -e ssh neelimas@pokxiscsrv101.pok.ibm.com
++       "pokxiscsrv102 OSSCProd"  Exec exec rxvt -T "pokxiscsrv102 OSSCProd"  -bg white  -fg black  -e ssh neelimas@pokxiscsrv102.pok.ibm.com
++       "pokxiscsrv105 TxHUB"  Exec exec rxvt -T "pokxiscsrv105 TxHUB"  -bg white  -fg black  -e ssh neelimas@pokxiscsrv105.pok.ibm.com
++       "pokxiscsrv67"  Exec exec rxvt -T "pokxiscsrv67"  -bg white  -fg black  -e ssh neelimas@pokxiscsrv67.pok.ibm.com
++       "iscddp-p-a001.pok.ibm.com"  Exec exec rxvt -T "iscddp-p-a001.pok.ibm.com"  -bg white  -fg black  -e ssh neelimas@iscddp-p-a001.pok.ibm.com
+
+
+AddToMenu Module-Popup	"FvwmModules"	Title
++			"Identify"	Module	FvwmIdent
++			"Talk"  	Module	FvwmTalk
++			""		Nop
++			"Button-Bar"	Module	FvwmButtons
++			"Pager"		Module  FvwmPager 0 0
++			"Pager (2 desks)" Module  FvwmPager 0 1
++			"WinList"	Module  FvwmWinList
++			""		Nop
++			"Banner"	Module	FvwmBanner
++                       "ScrollBar"     Module  FvwmScroll 50 50
++			"Background"	Module  FvwmBacker
++                       "AutoRaise"     Module  FvwmAuto 200 Raise Nop
++                       "Stop AutoRaise" KillModule FvwmAuto
++			""		Nop
++			"IconBox"	Module	FvwmIconBox
++                       "IconMan"       Module  FvwmIconMan
++			""		Nop
++                       "Form - Rlogin"      Module FvwmForm Rlogin
++                       "Form - MyFvwmTalk"  Module FvwmForm MyFvwmTalk
++                       "Form - QuitVerify"  Module FvwmForm QuitVerify
+
+AddToMenu Quit-Verify 	"Really Quit Fvwm?" Title
++		      	"Yes, Really Quit"  Quit
++		      	""		    Nop
++                       "Restart Fvwm"      Restart
+#+		      	"Restart Fvwm 1.x"  Restart fvwm -s
++		      	""		    Nop
++		      	"Start twm"         Restart twm
+#+		      	""		    Nop
+#+		      	"Start dummy"       Restart xterm
++		      	""		    Nop
++		      	"No, Don't Quit"    Nop
+
+######################## Sample Functions ##########################
+
+AddToFunc MailFunction	   I Next (AcceptsFocus $0) Iconify -1
++		           I Next (AcceptsFocus $0) Focus
++			   I None (AcceptsFocus $0) Exec $0 $1
+
+AddToFunc Move-or-Raise		I Raise
++				M Move
++  				D Lower
+
+AddToFunc Move-or-Raise2	M Raise
++				M Move
++  				D Lower
+
+AddToFunc Maximize-Func		M Maximize	 0 100
++				C Maximize	 0 80
++				D Maximize	 100 100
+
+AddToFunc Move-or-Iconify	I Raise
++				M Move
++				D Iconify
+
+AddToFunc Resize-or-Raise	I Raise
++				M Resize
++				D Lower
+
+AddToFunc Resize-or-Raise2	M Raise
++				M Resize
++				D Lower
+
+AddToFunc PrintFunction		I Raise
++				I Exec xdpr -id $w
+
+AddToFunc PrintReverseFunction  I Raise
++                               I Exec xdpr 1/2 -h -rv -id $w
+
+AddToFunc Iconify-and-Raise     I Iconify
++                               I Raise
+
+# RLOGIN machine fg bg
+AddToFunc RLOGIN I Exec xterm -fg $1 -bg $2 -e rlogin $0 -8
+
+# TELNET machine fg bg
+AddToFunc TELNET I Exec xterm -fg $1 -bg $2 -e telnet $0
+
+AddToFunc FocusAndWarp I Focus
++                      I WarpToWindow 2p 2p
+
+AddToFunc DeiconifyFocusAndWarp I Iconify -1
++                               I FocusAndWarp
+
+AddToFunc ChangeDefaultFocus I Style * $0
++                            I Recapture
+
+################## FvwmButtons button-bar ################################
+*FvwmButtons: Geometry 290x95+1-1
+*FvwmButtons: Back bisque3
+*FvwmButtons: (Frame 2 Padding 2 2 Container(Rows 1 Columns 2 Frame 1 \
+                                             Padding 10 0))
+#*FvwmButtons: (2x2 Frame 2 Swallow "FvwmIconMan" "Module FvwmIconMan")
+*FvwmButtons: (1x1 Frame 2 Swallow(UseOld) "FvwmPager" "Module FvwmPager 0 0")
+*FvwmButtons: (2x1 Frame 0 Container(Rows 1 Columns 2 Frame 0))
+#*FvwmButtons: (Frame 2 Swallow(UseOld,NoHints,Respawn) "xbiff" `Exec exec xbiff -bg bisque3`)
+*FvwmButtons: (1x1 Frame 2 Swallow(UseOld,NoHints,Respawn) "xclock" `Exec exec xclock -bg bisque3 -fg black -hd black -hl black -padding 0 -update 1`)
+# Add GMT clock here
+#*FvwmButtons: (1x1 Frame 2 Swallow(UseOld,NoHints,Respawn) "gmt_xclock" `Exec exec /usr/local/bin/gmt_xclock`)
+#*FvwmButtons: (2x1 Frame 2 Swallow(UseOld,NoHints,Respawn) "xload" `Exec exec xload -bg bisque3 -fg black -update 5 -nolabel`)
+*FvwmButtons: (End)
+*FvwmButtons: (End)
+
+########################## Icon Manager ####################################
+# this FvwmIconMan setup is for swallowing in above button bar example
+*FvwmIconMan: numManagers 1
+*FvwmIconMan: Resolution  page
+*FvwmIconMan: background  bisque3
+*FvwmIconMan: foreground  black
+*FvwmIconMan: font        7x13bold
+*FvwmIconMan: format      "%t"
+*FvwmIconMan: action      Mouse   1 N sendcommand Focus, sendcommand "Iconify"
+*FvwmIconMan: action      Mouse   2 N sendcommand "Iconify 1"
+*FvwmIconMan: action      Mouse   3 N sendcommand "FvwmIdent"
+*FvwmIconMan: followfocus true
+*FvwmIconMan: sort        name
+*FvwmIconMan: plainbutton          up black bisque3
+*FvwmIconMan: selectbutton         down black bisque3
+*FvwmIconMan: focusbutton          up yellow firebrick
+*FvwmIconMan: focusandselectButton down yellow firebrick
+*FvwmIconMan: dontshow icon=Untitled title=Untitled
+#*FvwmIconMan: drawicons true
+*FvwmIconMan: buttongeometry  300x0
+*FvwmIconMan: managergeometry 1x5
+
+########################## Window-Identifier ###############################
+# Just choose colors and a fonts
+*FvwmIdent: Back MidnightBlue
+*FvwmIdent: Fore Yellow
+*FvwmIdent: Font -adobe-helvetica-medium-r-*-*-12-*-*-*-*-*-*-*
+
+########################### Pager #########################################
+*FvwmPager: Back #908090
+*FvwmPager: Fore #484048
+#*FvwmPager: Font -adobe-helvetica-bold-r-*-*-10-*-*-*-*-*-*-*
+# turn off desktop names for swallowing in above button bar example:
+*FvwmPager: Font none
+*FvwmPager: Hilight #cab3ca
+*FvwmPager: Geometry -1-1
+*FvwmPager: Label 0 Misc
+*FvwmPager: Label 1 Maker
+*FvwmPager: Label 2 Mail
+*FvwmPager: Label 3 Matlab
+*FvwmPager: SmallFont 5x8
+*FvwmPager: Balloons            All
+*FvwmPager: BalloonBack         Yellow
+*FvwmPager: BalloonFore         Black
+*FvwmPager: BalloonFont         lucidasanstypewriter-12
+*FvwmPager: BalloonYOffset      +2
+*FvwmPager: BalloonBorderWidth  1
+*FvwmPager: BalloonBorderColor  Black
+
+##########################FvwmWinList##################################
+*FvwmWinList: Back #908090
+*FvwmWinList: Fore Black
+*FvwmWinList: Font -adobe-helvetica-bold-r-*-*-10-*-*-*-*-*-*-*
+*FvwmWinList: Action Click1 Iconify -1,Focus
+*FvwmWinList: Action Click2 Iconify
+*FvwmWinList: Action Click3 Module "FvwmIdent" FvwmIdent
+*FvwmWinList: UseSkipList
+*FvwmWinList: Geometry +0-1
+
+
+*FvwmBacker: Desk 0 -solid steelblue
+*FvwmBacker: Desk 1 -solid midnightblue
+
+*FvwmScroll: Back grey40
+*FvwmScroll: Fore green
+
+############################################################
+############################################################
+# Note that icons are shown in the module
+#    only if NoIcon commnand is applied.
+#Style     *  NoIcon
+
+############################################################
+*FvwmIconBox: IconBack    #cfcfcf
+*FvwmIconBox: IconHiFore  black
+*FvwmIconBox: IconHiBack  LightSkyBlue
+*FvwmIconBox: Back        #5f9ea0
+#*FvwmIconBox: Fore       blue
+*FvwmIconBox: Geometry    5x1+0+0
+*FvwmIconBox: MaxIconSize 64x38
+*FvwmIconBox: Font        -adobe-helvetica-medium-r-*-*-12-*-*-*-*-*-*-*
+*FvwmIconBox: SortIcons   IconName
+*FvwmIconBox: Padding     4
+*FvwmIconBox: Lines       10
+*FvwmIconBox: SBWidth     11
+*FvwmIconBox: Placement   Left Top
+*FvwmIconBox: Pixmap      fvwm.xpm
+#*FvwmIconBo: xHideSC Horizontal
+*FvwmIconBox: SetWMIconSize
+*FvwmIconBox: HilightFocusWin
+#*FvwmIconBox: Resolution          Desk
+*FvwmIconBox: Mouse       1       Click           RaiseLower
+*FvwmIconBox: Mouse       1       DoubleClick     Iconify
+*FvwmIconBox: Mouse       2       Click           Iconify -1, Focus
+*FvwmIconBox: Mouse       3       Click           Module FvwmIdent
+*FvwmIconBox: Key         r       RaiseLower
+*FvwmIconBox: Key         space   Iconify
+*FvwmIconBox: Key         d       Close
+*FvwmIconBox: Key         n       Next
+*FvwmIconBox: Key         p       Prev
+*FvwmIconBox: Key         h       Left
+*FvwmIconBox: Key         j       Down
+*FvwmIconBox: Key         k       Up
+*FvwmIconBox: Key         l       Right
+#
+# Icon file specifications
+#
+# Mostly, you don't have to specify icon files, as FvwmIconBox now
+# reads icon files specified in Style commands.
+#
+*FvwmIconBox            "Fvwm*"         -
+
+# FvwmForm alias - rlogin or telnet to host via xterm
+*Rlogin: WarpPointer
+*Rlogin: Font         *helvetica*m*r*n*12*
+*Rlogin: ButtonFont   *helvetica*m*o*n*12*
+*Rlogin: InputFont    *cour*m*r*n*12*
+*Rlogin: Fore         Black
+*Rlogin: Back         Light Gray
+*Rlogin: ItemFore          Wheat
+*Rlogin: ItemBack          Gray50
+# begin items
+*Rlogin: Line         center
+*Rlogin: Text         "Login to Remote Host"
+*Rlogin: Line         center
+*Rlogin: Text         "Host:"
+*Rlogin: Input        HostName  30   ""
+*Rlogin: Line         center
+*Rlogin: Selection    meth single
+*Rlogin: Choice       TN TN off "telnet"
+*Rlogin: Choice       RL RL on "rlogin"
+*Rlogin: Selection    UserSel   single
+#*Rlogin: Choice       Default   Default   on   "same user"
+#*Rlogin: Choice       Custom    Custom    off  "user:"
+*Rlogin: Text         "(Userid:"
+*Rlogin: Input        UserName  10   ""
+*Rlogin: Text         ")"
+*Rlogin: Line         center
+*Rlogin: Text         "FG:"
+*Rlogin: Input        FgColor 15 ""
+*Rlogin: Text         "BG:"
+*Rlogin: Input        BgColor 15 ""
+*Rlogin: Line         expand
+*Rlogin: Button       quit "Login" ^M
+*Rlogin: Command Exec xterm  $(FgColor?-fg $(FgColor)) $(BgColor?-bg $(BgColor)) -T xterm@$(HostName) -e $(RL?rlogin) $(TN?telnet) $(HostName) $(RL?-8 $(UserName?-l $(UserName)))
+*Rlogin: Button       restart   "Clear"
+*Rlogin: Command Beep
+*Rlogin: Button       quit "Cancel"
+*Rlogin: Command Nop
+
+# FvwmForm alias - query exit ala mwm
+*QuitVerify: GrabServer
+*QuitVerify: WarpPointer
+*QuitVerify: Font          *helvetica*m*r*n*14*
+#*QuitVerify: ButtonFont    *helvetica*m*o*n*14*
+*QuitVerify: ButtonFont    7x13bold
+*QuitVerify: Fore          Black
+*QuitVerify: Back          Light Gray
+*QuitVerify: ItemFore Wheat
+*QuitVerify: ItemBack Gray50
+# begin items
+*QuitVerify: Line          center
+*QuitVerify: Text          "Do you really want to exit FVWM?"
+*QuitVerify: Line          expand
+*QuitVerify: Button   quit      " Exit "
+*QuitVerify: Command  Quit
+*QuitVerify: Button   quit      "Cancel"
+*QuitVerify: Command  Nop
+
+# MyTalk & MyFvwmTalk from Dave Goldberg
+# MyTalk Form - dissappears after use
+*MyTalk: WarpPointer
+*MyTalk: Font *helvetica*m*r*n*14*
+*MyTalk: ButtonFont *helvetica*m*o*n*14*
+*MyTalk: InputFont *cour*m*r*n*14*
+*MyTalk: Fore Red
+*MyTalk: Back Gray
+*MyTalk: ItemFore Blue
+*MyTalk: ItemBack Gray
+*MyTalk: Line center
+*MyTalk: Text "Fvwm Function"
+*MyTalk: Input Func 40 ""
+*MyTalk: Line expand
+*MyTalk: Button quit "Run" ^M
+*MyTalk: Command $(Func)
+*MyTalk: Button restart "Clear" ^R
+*MyTalk: Button quit "Cancel" ^C
+*MyTalk: Command Nop
+# MyFvwmTalk Form - sticks around
+*MyFvwmTalk: WarpPointer
+*MyFvwmTalk: Font *helvetica*m*r*n*14*
+*MyFvwmTalk: ButtonFont *helvetica*m*o*n*14*
+*MyFvwmTalk: InputFont *cour*m*r*n*14*
+*MyFvwmTalk: Fore Red
+*MyFvwmTalk: Back Gray
+*MyFvwmTalk: ItemFore Blue
+*MyFvwmTalk: ItemBack Gray
+*MyFvwmTalk: Line center
+*MyFvwmTalk: Text "Fvwm Function"
+*MyFvwmTalk: Input Func 40 ""
+*MyFvwmTalk: Line expand
+*MyFvwmTalk: Button restart "Run" ^M
+*MyFvwmTalk: Command $(Func)
+*MyFvwmTalk: Button restart "Clear" ^R
+*MyFvwmTalk: Command Nop
+*MyFvwmTalk: Button restart "Iconify" ^Z
+*MyFvwmTalk: Command Next [MyFvwmTalk] Iconify
+*MyFvwmTalk: Button quit "Quit" ^C
+*MyFvwmTalk: Command Nop
+
+# to change banner pixmap
+#*FvwmBanner: Pixmap fvwm3.xpm
+#*FvwmBanner: Timeout 2
